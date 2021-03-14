@@ -3,9 +3,8 @@ Pi calculator in C to celebrate Pi Day 2021. Uses GMP library and the Bailey–B
 It rounds the last digit and only goes up to 1 million digits of pi.
 
 ## Build (Ubuntu-based Linux distros):
-<p>Install GMP if you don't already have it: `sudo apt install libgmp-dev`</p>
-
-<p>Compile: `gcc pi.c -lgmp -o pi`</p>
+Install GMP if you don't already have it: `sudo apt install libgmp-dev`
+Compile: `gcc pi.c -lgmp -o pi`
 
 ## Usage:
 `./pi -d [DIGITS]`    Calculates pi to a precision of [DIGITS].
