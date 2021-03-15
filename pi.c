@@ -1,43 +1,63 @@
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <getopt.h>
 #include <gmp.h>
+
+#define DEFAULT_PI_DIGITS 10
+#define MAX_PI_DIGITS 1000000
+
+static int help_flag;
 
 int main (int argc, char *argv[])
 {
-	unsigned long int digits;
-	unsigned long int max = 1000000;
+	unsigned long int digits = DEFAULT_PI_DIGITS;
 
 	// Option parsing
 	//-----------------------------------------------------------------------------------
-	char *dvalue = NULL;
-	int index;
 	int c;
+	char *dvalue = NULL;
 
-	opterr = 0;
+	while (1)
+	{
+		static struct option long_options[] =
+		{
+			{"help", no_argument, &help_flag, 1},
+		};
 
-	while ((c = getopt (argc, argv, "d:")) != -1)
+		int option_index = 0;
+
+		c = getopt_long (argc, argv, "d:", long_options, &option_index);
+
+		if (c == -1)
+			break;
+
 		switch (c)
 		{
+			case 0:
+				break;
 			case 'd':
 				dvalue = optarg;
 				char *ep;
 				digits = strtoul (dvalue, &ep, 0);
-				if (digits > max)
-					digits = max;
+				if (digits > MAX_PI_DIGITS)
+					digits = MAX_PI_DIGITS;
 				break;
 			case '?':
-				if (optopt == 'd')
-					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-				else if (isprint (optopt))
-					fprintf (stderr, "Unknown option '-%c'.\n", optopt);
-				else
-					fprintf (stderr, "Unknown option character '\\x%x'.\n", optopt);
-				return 1;
+				break;
 			default:
 				abort ();
 		}
+	}
+
+	if (help_flag)
+	{
+		printf ("Usage: pi [OPTION]...\n");
+		printf ("Calculates the value of pi (rounded).\n");
+		printf ("\n");
+		printf ("  -d <digits>    Specify the number of decimal places to calculate. Default is %d, maximum is %d.\n", DEFAULT_PI_DIGITS, MAX_PI_DIGITS);
+		printf ("      --help     Display this help message and exit.\n");
+		return 0;
+	}
 
 	// Pi calculator code
 	//-----------------------------------------------------------------------------------

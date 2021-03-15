@@ -7,5 +7,10 @@ Install GMP if you don't already have it: `sudo apt install libgmp-dev` <br />
 Compile: `gcc pi.c -lgmp -o pi`
 
 ## Usage:
-`./pi -d [DIGITS]`    Calculates pi to a precision of [DIGITS]. <br />
-Currently, there is no `--help` option (may add in the future).
+<code>
+Usage: pi [OPTION]...<br/>
+Calculates the value of pi (rounded).<br/>
+<br/>
+  -d \<digits\>    Specify the number of decimal places to calculate. Default is 10, maximum is 1000000.<br/>
+      --help     Display this help message and exit.<br/>
+</code>
